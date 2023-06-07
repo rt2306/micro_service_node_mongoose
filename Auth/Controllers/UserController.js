@@ -725,8 +725,40 @@ console.log(request,"=-=-=-");
         console.log({error})
     }
 
-  
+    
 
+}
+const update_profile= async (req, res) => {
+    let data = req.body;
+    let user = req.user 
+    try {
+        let { status, message } = await CValidator(data, {
+            name: 'required|min:3|max:15',
+            email: 'required',
+            mobile: 'required|min:1|max:10',
+            alternate_mobile:'required|min:1|max:10'
+        });
+        if (!status) {
+            return res.send(reply.failed(message));
+        }
+
+
+       await User.update(
+            { 
+                name: data.name,
+                email: data.email,
+                mobile: data.mobile,
+                alternate_mobile:data.alternate_mobile
+            }, {
+            where: {
+                id: user.id
+            }
+        })
+        return res.json(reply.success('User Updated Successfully'));
+    } catch (error) {
+        console.log(error, "errorerror");
+        return res.send(reply.failed('Failed to update  at this moment!!'))
+    }
 }
 
 
@@ -742,5 +774,6 @@ export default {
     logout,
     forgotPassword,
     resetPassword,
-    password_verify_otp
+    password_verify_otp,
+    update_profile
 }

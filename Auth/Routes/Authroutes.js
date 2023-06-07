@@ -18,7 +18,7 @@ router.post("/forgot" ,UserController.forgotPassword);
 
 router.post("/password_verify_otp" ,UserController.password_verify_otp);
 router.post("/reset" ,UserController.resetPassword);
-
+router.post("/update_profile" ,UserController.update_profile);
 //admin api 
 
 router.post("/login_by_admin" ,UserController.login_by_admin);
